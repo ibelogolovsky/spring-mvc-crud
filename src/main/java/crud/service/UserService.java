@@ -1,7 +1,6 @@
 package crud.service;
 
-import model.User;
-import org.springframework.stereotype.Component;
+import crud.model.User;
 
 import java.util.List;
 
