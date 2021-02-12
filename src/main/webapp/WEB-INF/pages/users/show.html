@@ -5,7 +5,8 @@
     <title>User</title>
 </head>
 <body>
-<p th:text="${user.getFirstName()} ${user.getLastName()} ${user.getEmail()}">VALUE</p>
-<p th:text="${user.getId()}">VALUE</p>
+<p th:text="|Full name: ${user.getFirstName()} ${user.getLastName()}|">VALUE</p>
+<p th:text="|E-mail: ${user.getEmail()}">VALUE</p>
+<p th:text="|Id: ${user.getId()}|">VALUE</p>
 </body>
 </html>
