@@ -9,7 +9,26 @@
 <p th:text="|Full name: ${user.getFirstName()} ${user.getLastName()}|">VALUE</p>
 <p th:text="|E-mail: ${user.getEmail()}|">VALUE</p>
 <p th:text="|Id: ${user.getId()}|">VALUE</p>
-<h1><a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a></h1>
-<h1><a th:href="@{/users}">Back</a></h1>
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <form th:method="GET" th:action="@{/users/{id}/edit(id=${user.getId()})}">
+                    <input type="submit" value="Edit"/>
+                </form>
+            </td>
+            <td>
+                <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+                    <input type="submit" value="Delete"/>
+                </form>
+            </td>
+            <td>
+                <form method="get" action="/users">
+                    <input type="submit" value="Back"/>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>

@@ -10,6 +10,8 @@
         <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="|${user.getFirstName()} ${user.getLastName()}|">user</a>
     </div>
     <br/>
-<h1><a href="/users/new">Add new user</a></h1>
+    <form method="get" action="/users/new">
+        <input type="submit" value="Add"/>
+    </form>
 </body>
 </html>
