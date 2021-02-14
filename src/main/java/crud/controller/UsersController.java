@@ -1,6 +1,7 @@
 package crud.controller;
 
 import crud.service.UserService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +13,14 @@ public class UsersController {
 
     private final UserService userService;
 
-    public UsersController(UserService userService) {
+    public UsersController(@Qualifier("userServiceRepoImpl") UserService userService) {
         this.userService = userService;
-        this.userService.add(new User("John", "Smith", "jsmith@gmail.com"));
+        this.userService.save(new User("John", "Smith", "jsmith@gmail.com"));
     }
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("users", userService.getAll());
+        model.addAttribute("users", userService.listAll());
         return "users/index";
     }
 
@@ -36,7 +37,7 @@ public class UsersController {
 
     @PostMapping
     public String create(@ModelAttribute("user") User user) {
-        userService.add(user);
+        userService.save(user);
         return "redirect:/users";
     }
 
@@ -49,7 +50,7 @@ public class UsersController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
         user.setId(id);
-        userService.set(user);
+        userService.save(user);
         return "redirect:/users";
     }
 
