@@ -9,4 +9,5 @@ public interface UserService {
     User get(long id);
     void remove(long id);
     List<User> listAll();
+    User findByLogin(String login);
 }

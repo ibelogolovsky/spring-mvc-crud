@@ -1,6 +1,8 @@
 package crud.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -10,7 +12,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//    @Id
+    //    @Id
     @Column(name = "login", unique = true, nullable = false)
     private String login;
 
@@ -20,6 +22,14 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "User_Role",
+//            joinColumns = { @JoinColumn(name = "users_id") },
+//            inverseJoinColumns = { @JoinColumn(name = "roles_id")}
+//    )
+    Set<Role> roles = new HashSet<>();
 
     public User(String login, String password, String firstName, String lastName, String email) {
         this.login = login;
@@ -53,12 +63,6 @@ public class User {
     public User() {
     }
 
-//    public User(String firstName, String lastName, String email) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.email = email;
-//    }
-
     public long getId() {
         return id;
     }
@@ -91,13 +95,20 @@ public class User {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public void delRole(Role role) {
+        this.roles.remove(role);
     }
 }

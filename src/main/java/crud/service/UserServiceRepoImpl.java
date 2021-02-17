@@ -22,6 +22,7 @@ public class UserServiceRepoImpl implements UserService {
 
     @Override
     public User get(long id) {
+        //noinspection OptionalGetWithoutIsPresent
         return repo.findById(id).get();
     }
 
@@ -33,5 +34,10 @@ public class UserServiceRepoImpl implements UserService {
     @Override
     public List<User> listAll() {
         return (List<User>) repo.findAll();
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        return repo.findByLogin(login);
     }
 }

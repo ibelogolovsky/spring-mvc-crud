@@ -1,6 +1,9 @@
 package crud.controller;
 
+import crud.model.Role;
+import crud.service.RoleService;
 import crud.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +16,23 @@ public class UsersController {
 
     private final UserService userService;
 
-    public UsersController(@Qualifier("userServiceRepoImpl") UserService userService) {
+    private final RoleService roleService;
+
+    public UsersController(@Qualifier("userServiceRepoImpl") UserService userService, RoleService roleService) {
         this.userService = userService;
-        this.userService.save(new User("jsmith", "1234", "John", "Smith", "jsmith@gmail.com"));
+        this.roleService = roleService;
+        roleService.save(new Role("ADMIN"));
+        roleService.save(new Role("USER"));
+        User jsmith = new User("jsmith", "1234",
+                "John", "Smith", "jsmith@gmail.com");
+        jsmith.addRole(roleService.findByRolename("USER"));
+        userService.save(jsmith);
+        User admin = new User(
+                "admin", "admin",
+                "Igor", "Belogolovsky", "ibelogolovsky@gmail.com");
+        admin.addRole(this.roleService.findByRolename("ADMIN"));
+        this.userService.save(admin);
+
     }
 
     @GetMapping()
