@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>User info</h1>
+<p th:text="|Login: ${user.getLogin()}|">VALUE</p>
 <p th:text="|Full name: ${user.getFirstName()} ${user.getLastName()}|">VALUE</p>
 <p th:text="|E-mail: ${user.getEmail()}|">VALUE</p>
 <p th:text="|Id: ${user.getId()}|">VALUE</p>
