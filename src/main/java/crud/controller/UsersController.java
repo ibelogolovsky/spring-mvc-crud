@@ -15,7 +15,7 @@ public class UsersController {
 
     public UsersController(@Qualifier("userServiceRepoImpl") UserService userService) {
         this.userService = userService;
-        this.userService.save(new User("John", "Smith", "jsmith@gmail.com"));
+        this.userService.save(new User("jsmith", "1234", "John", "Smith", "jsmith@gmail.com"));
     }
 
     @GetMapping()
