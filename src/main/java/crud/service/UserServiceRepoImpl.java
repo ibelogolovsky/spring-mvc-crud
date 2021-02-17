@@ -23,7 +23,7 @@ public class UserServiceRepoImpl implements UserService {
     @Override
     public User get(long id) {
         //noinspection OptionalGetWithoutIsPresent
-        return repo.findById(id).get();
+        return  repo.findById(id).get();
     }
 
     @Override
