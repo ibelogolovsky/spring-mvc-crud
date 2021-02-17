@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service()
 public class UserServiceRepoImpl implements UserService {
@@ -22,8 +23,8 @@ public class UserServiceRepoImpl implements UserService {
 
     @Override
     public User get(long id) {
-        //noinspection OptionalGetWithoutIsPresent
-        return  repo.findById(id).get();
+        Optional<User> userFromDb = repo.findById(id);
+        return userFromDb.orElse(new User());
     }
 
     @Override

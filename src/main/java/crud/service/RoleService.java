@@ -5,6 +5,7 @@ import crud.model.Role;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleService {
@@ -20,8 +21,8 @@ public class RoleService {
     }
 
     public Role get(long id) {
-        //noinspection OptionalGetWithoutIsPresent
-        return repo.findById(id).get();
+        Optional<Role> roleFromDb = repo.findById(id);
+        return roleFromDb.orElse(new Role());
     }
 
 
