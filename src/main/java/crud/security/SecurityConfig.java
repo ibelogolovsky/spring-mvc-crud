@@ -31,24 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public SecurityConfig(UserService userService, RoleService roleService) {
         this.userService = userService;
-        Role rUser = new Role("ROLE_USER");
-//        roleService.save(rUser);
-//        Role rAdmin = new Role("ROLE_ADMIN");
-//        roleService.save(rAdmin);
         User jsmith = new User("jsmith", "1234",
                 "John", "Smith", "jsmith@gmail.com");
-        jsmith.addRole(rUser);
-        userService.save(jsmith);
         User admin = new User("admin", "admin",
                 "Igor", "Belogolovsky", "ibelogolovsky@gmail.com");
-//        admin.addRole(rUser);
-//        admin.addRole(rAdmin);
-//        userService.save(admin);
-//        userService.addRole();
-//        jsmith.getRoles().add(rUser);
-//        userService.save(jsmith);
-//        admin.getRoles().addAll(Arrays.asList(rUser, rAdmin));
-//        userService.addRole(jsmith, rUser);
+        userService.addRole(jsmith, "ROLE_USER");
         userService.addRole(admin, "ROLE_ADMIN");
         userService.addRole(admin, "ROLE_USER");
     }
@@ -70,23 +57,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/")
                 ;
-        http.logout()
-                // разрешаем делать логаут всем
-                .permitAll()
-                // указываем URL логаута
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                // указываем URL при удачном логауте
-                .logoutSuccessUrl("/login?logout")
-                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
-                .and().csrf().disable();
+//        http.logout()
+//                // разрешаем делать логаут всем
+//                .permitAll()
+//                // указываем URL логаута
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                // указываем URL при удачном логауте
+//                .logoutSuccessUrl("/login?logout")
+//                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
+//                .and().csrf().disable();
 
-        http
-                // делаем страницу регистрации недоступной для авторизированных пользователей
-                .authorizeRequests()
-                //страницы аутентификаци доступна всем
-                .antMatchers("/login").anonymous()
-                // защищенные URL
-                .antMatchers("/hello").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
+//        http
+//                // делаем страницу регистрации недоступной для авторизированных пользователей
+//                .authorizeRequests()
+//                //страницы аутентификаци доступна всем
+//                .antMatchers("/login").anonymous()
+//                // защищенные URL
+//                .antMatchers("/hello").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
     }
 
     @Bean
