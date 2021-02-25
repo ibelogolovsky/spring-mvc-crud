@@ -14,18 +14,23 @@
     <tbody>
         <tr>
             <td>
-                <form th:method="GET" th:action="@{/users/{id}/edit(id=${user.getId()})}">
+                <form th:method="GET" th:action="@{/admin/{id}/edit(id=${user.getId()})}">
                     <input type="submit" value="Edit"/>
                 </form>
             </td>
             <td>
-                <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+                <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
                     <input type="submit" value="Delete"/>
                 </form>
             </td>
             <td>
-                <form method="get" action="/users">
+                <form method="get" action="/admin">
                     <input type="submit" value="Back"/>
+                </form>
+            </td>
+            <td>
+                <form method="get" action="/logout">
+                    <input type="submit" value="Logout"/>
                 </form>
             </td>
         </tr>

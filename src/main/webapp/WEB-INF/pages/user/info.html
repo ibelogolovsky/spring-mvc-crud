@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+<h1>Your info</h1>
+<p th:text="|Login: ${user.getLogin()}|">VALUE</p>
+<p th:text="|Full name: ${user.getFirstName()} ${user.getLastName()}|">VALUE</p>
+<p th:text="|E-mail: ${user.getEmail()}|">VALUE</p>
+<p th:text="|Id: ${user.getId()}|">VALUE</p>
+<form th:action="@{/logout}" method="POST">
+    <input type="submit" value="Logout"/>
+</form>
+</body>
+</html>

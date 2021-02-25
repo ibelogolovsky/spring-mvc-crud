@@ -4,43 +4,22 @@ import crud.model.Role;
 import crud.service.RoleService;
 import crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import crud.model.User;
 
+import java.util.*;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    public AdminController(UserService userService) {
-        this.userService = userService;
-    }
-
-//
-//    @Autowired
-//    private final RoleService roleService;
-
-//    public AdminController(@Qualifier("userServiceRepoImpl") UserService userService, RoleService roleService) {
-//        this.userService = userService;
-//        this.roleService = roleService;
-////        roleService.save(new Role("ROLE_USER"));
-////        roleService.save(new Role("ROLE_ADMIN"));
-//        User jsmith = new User("jsmith", "1234",
-//                "John", "Smith", "jsmith@gmail.com");
-//        jsmith.addRole(new Role("ROLE_USER"));
-//        userService.save(jsmith);
-//        User admin = new User(
-//                "admin", "admin",
-//                "Igor", "Belogolovsky", "ibelogolovsky@gmail.com");
-//        admin.addRole(new Role("ROLE_ADMIN"));
-////        admin.addRole(new Role("ROLE_USER"));
-//        userService.save(admin);
-
-//    }
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping()
     public String index(Model model) {
@@ -55,26 +34,48 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "users/new";
+    public String newUser(@ModelAttribute("user") User user,
+                          Model model) {
+        model.addAttribute("allRoles", roleService.listAll());
+        return "admin/new";
     }
 
     @PostMapping
-    public String create(@ModelAttribute("user") User user) {
-        userService.save(user);
+    public String create(@ModelAttribute("user") User user,
+                         @RequestParam(value = "roles") Role[] rolesArray) {
+        User newUser = new User(user);
+        for (Role role : rolesArray) {
+            userService.addRole(newUser, role.getName());
+        }
         return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.get(id));
+        model.addAttribute("allRoles", roleService.listAll());
         return "admin/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+    public String update(@ModelAttribute("user") User user,
+                         @RequestParam(value = "roles", required = false) Role[] rolesArray,
+                         @PathVariable("id") long id) {
         user.setId(id);
-        userService.save(user);
+        User dbUser = userService.get(id);
+        user.setLogin(dbUser.getLogin());
+        boolean passwordUpdated = true;
+        if (user.getPassword().equals("")) {
+            user.setPassword(dbUser.getPassword());
+            passwordUpdated = false;
+        }
+        user.setRoles(new HashSet<>());
+        userService.save(user, passwordUpdated);
+        if (rolesArray != null) {
+            for (Role role : rolesArray) {
+                userService.addRole(user, role.getName());
+            }
+        }
         return "redirect:/admin";
     }
 
@@ -83,9 +84,4 @@ public class AdminController {
         userService.remove(id);
         return "redirect:/admin";
     }
-
-//    @GetMapping(value = "/login")
-//    public String getLoginPage() {
-//        return "login";
-//    }
 }

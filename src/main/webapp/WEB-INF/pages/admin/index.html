@@ -7,11 +7,27 @@
 <body>
 <h1>Users in Database</h1>
     <div th:each="user : ${users}">
-        <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="|${user.getFirstName()} ${user.getLastName()}|">user</a>
+        <a th:href="@{/admin/{id}(id=${user.getId()})}" th:text="|${user.getFirstName()} ${user.getLastName()}|">user</a>
     </div>
     <br/>
-    <form method="get" action="/users/new">
-        <input type="submit" value="Add"/>
-    </form>
+    <a href="/user">Your own page</a>
+    <br/>
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <form method="get" action="/admin/new">
+                    <input type="submit" value="Add"/>
+                </form>
+            </td>
+            <td>
+                <form method="get" action="/logout">
+                    <input type="submit" value="Logout"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
 </body>
 </html>

@@ -5,7 +5,14 @@
     <title>New user</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/users}" th:object="${user}">
+<!--/*@thymesVar id="user" type="crud.model.User"*/-->
+<form th:method="POST" th:action="@{/admin}" th:object ="${user}">
+    <label for="login">Login:</label>
+    <input type="text" th:field="*{login}" id="login">
+    <br/>
+    <label for="password">Password:</label>
+    <input type="password" th:field="*{password}" id="password">
+    <br/>
     <label for="firstName">Name:</label>
     <input type="text" th:field="*{firstName}" id="firstName">
     <br/>
@@ -14,6 +21,17 @@
     <br/>
     <label for="email">E-mail:</label>
     <input type="text" th:field="*{email}" id="email">
+    <br/>
+    <label>Roles:</label>
+    <ul>
+        <li th:each="role : ${allRoles}">
+            <input type="checkbox" name="roles"
+                   th:text="${role.getName()}"
+                   th:value="${role.getName()}"
+                   th:field="*{roles}"
+            />
+        </li>
+    </ul>
     <br/>
     <input type="submit" th:value="Add"/>
 </form>

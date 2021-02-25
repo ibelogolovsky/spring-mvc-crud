@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class RoleService {
@@ -25,7 +26,6 @@ public class RoleService {
         return roleFromDb.orElse(new Role());
     }
 
-
     public void remove(long id) {
         repo.deleteById(id);
     }
@@ -34,7 +34,4 @@ public class RoleService {
         return (List<Role>) repo.findAll();
     }
 
-//    public Role findByRolename(String rolename) {
-//        return repo.findByRolename(rolename);
-//    }
 }
