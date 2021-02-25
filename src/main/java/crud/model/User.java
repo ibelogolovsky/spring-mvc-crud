@@ -48,9 +48,14 @@ public class User implements UserDetails {
     public User() {
     }
 
+    public User(User user) {
+        this(user.getLogin(), user.getPassword(), user.getFirstName(), user.getLastName(),
+                user.getEmail());
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return (Collection<? extends GrantedAuthority>) getRoles();
+        return getRoles();
     }
 
     public String getPassword() {
@@ -129,6 +134,10 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public boolean hasRole(Role role) {
+        return getRoles().contains(role);
     }
 
     public void setRoles(Set<Role> roles) {
