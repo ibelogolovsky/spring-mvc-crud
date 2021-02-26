@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service()
+@Service
 public class UserServiceRepoImpl implements UserService {
     final UserRepository repo;
 
@@ -22,7 +22,7 @@ public class UserServiceRepoImpl implements UserService {
 
     @Override
     public User get(long id) {
-        return repo.findById(id).get();
+        return repo.findById(id);
     }
 
     @Override
